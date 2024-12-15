@@ -1,6 +1,5 @@
 import os
 import streamlit as st
-import pandas as pd
 from groq import Groq
 
 # Initialize Groq client with the API key from Streamlit secrets
@@ -12,16 +11,19 @@ st.title("CampusGuideGPT - Study in Germany")
 # Get user input for the query
 query = st.text_input("Ask a question about studying in Germany:")
 
-# Load the CSV data with questions and answers
-df = pd.read_csv("https://raw.githubusercontent.com/mhd-faizzan/Groqtest/master/universities_data.csv")
+# Predefined questions and answers
+qa_data = [
+    {"question": "What is the capital of Germany?", "answer": "The capital of Germany is Berlin."},
+    {"question": "What is the duration of a master's degree in Germany?", "answer": "A master's degree typically takes 2 years in Germany."},
+    {"question": "What are the tuition fees for universities in Germany?", "answer": "Most public universities in Germany do not charge tuition fees for international students, except for a semester fee."},
+    {"question": "Is learning German necessary for studying in Germany?", "answer": "While many programs are in English, learning German can be very beneficial for living and working in Germany."},
+]
 
-# Function to search for a question and return the corresponding answer from CSV
-def get_answer_from_csv(query, df):
-    # Check if the query is in the 'Question' column (case insensitive)
-    matches = df[df['Question'].str.contains(query, case=False, na=False)]
-    if not matches.empty:
-        # Return the first matching answer
-        return matches.iloc[0]['Answer']
+# Function to search for a question and return the corresponding answer from predefined data
+def get_answer_from_qa(query):
+    for item in qa_data:
+        if query.lower() in item["question"].lower():
+            return item["answer"]
     return None
 
 # Function to generate response from the model if no match is found
@@ -36,11 +38,11 @@ def generate_response(query):
     except Exception as e:
         return f"Error in prediction: {str(e)}"
 
-# Check if the query matches an entry in the CSV
+# Check if the query matches an entry in the predefined data
 if query:
-    answer = get_answer_from_csv(query, df)
+    answer = get_answer_from_qa(query)
     if answer:
-        st.write("Answer from CSV:", answer)
+        st.write("Answer from predefined data:", answer)
     else:
         response = generate_response(query)
         st.write("Response from LLM:", response)
