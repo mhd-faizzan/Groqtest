@@ -1,6 +1,7 @@
 import os
 import streamlit as st
 from groq import Groq
+from fuzzywuzzy import fuzz
 
 # Initialize Groq client with the API key from Streamlit secrets
 client = Groq(api_key=st.secrets["groq"]["GROQ_API_KEY"])
@@ -19,12 +20,16 @@ qa_data = [
     {"question": "Is learning German necessary for studying in Germany?", "answer": "While many programs are in English, learning German can be very beneficial for living and working in Germany."},
 ]
 
-# Function to search for a question and return the corresponding answer from predefined data
-def get_answer_from_qa(query):
+# Function to find the best match for a query using fuzzy matching
+def get_answer_from_qa(query, threshold=70):
+    best_match = None
+    highest_score = 0
     for item in qa_data:
-        if query.lower() in item["question"].lower():
-            return item["answer"]
-    return None
+        score = fuzz.partial_ratio(query.lower(), item["question"].lower())
+        if score > highest_score and score >= threshold:
+            best_match = item["answer"]
+            highest_score = score
+    return best_match
 
 # Function to generate response from the model if no match is found
 def generate_response(query):
