@@ -3,7 +3,7 @@ import streamlit as st
 from groq import Groq
 
 # Initialize Groq client with the API key from Streamlit secrets
-client = Groq(api_key=st.secrets["GROQ_API_KEY"])
+client = Groq(api_key=st.secrets["groq"]["GROQ_API_KEY"])
 
 # Streamlit UI
 st.title("GenAI-based RAG Application")
