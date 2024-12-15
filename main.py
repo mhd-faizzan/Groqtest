@@ -1,12 +1,15 @@
 import streamlit as st
+from fuzzywuzzy import fuzz, process
 from groq import Groq
-from fuzzywuzzy import fuzz
+
+# Initialize Groq client
+client = Groq(api_key=st.secrets["groq"]["GROQ_API_KEY"])
 
 # Predefined Questions and Answers
 predefined_qa = [
     {
         "question": "What is the focus of the Technology and Innovation Management (TIM) program?",
-        "answer": "The Technology and Innovation Management (TIM) program focuses on equipping students with the skills to analyze innovation trends, identify future business opportunities, and make informed decisions about managing innovation. It combines engineering, IT, and business competences to address challenges in digitalization, automation, and business process integration. The program emphasizes applied science and recent trends in digital transformation, preparing students to take on managerial and technical responsibilities."
+        "answer": "The Technology and Innovation Management (TIM) program focuses on equipping students with the skills to analyze innovation trends, identify future business opportunities, and make informed decisions about managing innovation."
     },
     {
         "question": "How does the TIM program prepare students for careers in innovation and technology?",
@@ -66,59 +69,33 @@ predefined_qa = [
     }
 ]
 
-# Initialize Groq client with the API key from Streamlit secrets
-client = Groq(api_key=st.secrets["groq"]["GROQ_API_KEY"])
-
-# Function to get a predefined answer
+# Function to find the best match for a question
 def get_predefined_answer(query):
-    best_match = None
-    highest_score = 0
-
-    # Match query with predefined questions
-    for question, answer in predefined_qa.items():
-        score = fuzz.partial_ratio(query.lower(), question.lower())
-        if score > highest_score:
-            highest_score = score
-            best_match = answer
-
-    # Set a threshold to determine if a match is good enough
-    if highest_score > 70:  # Adjust the threshold as needed
-        return best_match
+    threshold = 70  # Adjust threshold as needed
+    best_match = process.extractOne(query, [qa["question"] for qa in predefined_qa], scorer=fuzz.partial_ratio)
+    if best_match and best_match[1] >= threshold:
+        for qa in predefined_qa:
+            if qa["question"] == best_match[0]:
+                return qa["answer"]
     return None
 
-# Function to generate response from the LLM
-def get_llm_response(query):
-    try:
-        # Create chat completion request to Groq API using llama3-70b-8192 model
-        chat_completion = client.chat.completions.create(
-            messages=[{"role": "user", "content": query}],
-            model="llama3-70b-8192",  # Ensure you are using the correct model name
-        )
-        return chat_completion.choices[0].message.content
-    except Exception as e:
-        return f"(Unable to get LLM response: {str(e)})"
-
-# Streamlit UI
+# Streamlit App UI
 st.title("CampusGuideGPT")
-st.write("Your guide to studying in Germany! Ask your questions below.")
+st.write("Your guide to studying in Germany. Ask a question below!")
 
-# Get user input for the query
-query = st.text_input("Ask a question about studying in Germany:")
+query = st.text_input("Ask your question:")
 
 if query:
-    # First try to get an answer from predefined QA
     predefined_answer = get_predefined_answer(query)
 
-    # Get LLM response for additional information
-    llm_response = get_llm_response(query)
-
-    # Combine answers
     if predefined_answer:
-        response = predefined_answer
-        if llm_response:
-            response += f"\n\nAdditional Information: {llm_response}"
+        st.write(predefined_answer)
     else:
-        response = llm_response or "Sorry, I couldn't find an answer to your question."
-
-    # Display the response
-    st.write(response)
+        try:
+            response = client.chat.completions.create(
+                messages=[{"role": "user", "content": query}],
+                model="llama3-70b-8192"
+            )
+            st.write(response.choices[0].message.content)
+        except Exception as e:
+            st.write(f"Error fetching AI response: {e}")
