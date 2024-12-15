@@ -3,7 +3,7 @@ from groq import Groq
 from fuzzywuzzy import fuzz
 
 # Predefined Questions and Answers
-qa_data = [
+predefined_qa = [
     {
         "question": "What is the focus of the Technology and Innovation Management (TIM) program?",
         "answer": "The Technology and Innovation Management (TIM) program focuses on equipping students with the skills to analyze innovation trends, identify future business opportunities, and make informed decisions about managing innovation. It combines engineering, IT, and business competences to address challenges in digitalization, automation, and business process integration. The program emphasizes applied science and recent trends in digital transformation, preparing students to take on managerial and technical responsibilities."
