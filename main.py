@@ -7,16 +7,15 @@ client = Groq(api_key=st.secrets["GROQ_API_KEY"])
 
 # Streamlit UI
 st.title("CampusGuideGPT")
-st.markdown(
-    """
-    Welcome to **CampusGuideGPT**, your AI-powered assistant for information on studying in Germany.
-    
-    Simply type your question below, and I will generate a response based on the most relevant data.
-    """
-)
 
-# Create a stylized input box for the prompt
-query = st.text_input("Ask a question about studying in Germany:", placeholder="Enter your question here...")
+# Add a description for a user-friendly interface
+st.markdown("""
+Welcome to CampusGuideGPT, your AI-powered assistant for all things related to studying abroad in Germany! 
+Ask any question and get comprehensive answers powered by the latest language models.
+""")
+
+# Get user input for the query
+query = st.text_input("Ask a question about studying in Germany:")
 
 # Function to generate response from the model
 def generate_response(query):
@@ -30,8 +29,15 @@ def generate_response(query):
     except Exception as e:
         return f"Error in prediction: {str(e)}"
 
+# If the user enters a query, generate and display the response
 if query:
     # Fetch the response from the model
     response = generate_response(query)
-    st.write("### Response:")
-    st.write(response)
+    st.write("Response:", response)
+
+    # Optionally, add some styling to make the response more visually appealing
+    st.markdown(f"""
+    <div style="background-color: #f0f0f5; padding: 10px; border-radius: 5px;">
+        <b>Answer:</b> {response}
+    </div>
+    """, unsafe_allow_html=True)
