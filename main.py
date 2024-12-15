@@ -1,9 +1,6 @@
 import streamlit as st
-from fuzzywuzzy import fuzz, process
 from groq import Groq
-
-# Initialize Groq client
-client = Groq(api_key=st.secrets["groq"]["GROQ_API_KEY"])
+from fuzzywuzzy import fuzz
 
 # Predefined Questions and Answers
 qa_data = [
@@ -69,28 +66,59 @@ qa_data = [
     }
 ]
 
-# Function to find the best match for a question
-def get_predefined_answer(question):
-    threshold = 75  # Minimum similarity threshold
-    best_match = process.extractOne(question, [qa["question"] for qa in qa_data], scorer=fuzz.token_sort_ratio)
-    if best_match and best_match[1] >= threshold:
-        for qa in qa_data:
-            if qa["question"] == best_match[0]:
-                return qa["answer"]
+# Initialize Groq client with the API key from Streamlit secrets
+client = Groq(api_key=st.secrets["groq"]["GROQ_API_KEY"])
+
+# Function to get a predefined answer
+def get_predefined_answer(query):
+    best_match = None
+    highest_score = 0
+
+    # Match query with predefined questions
+    for question, answer in predefined_qa.items():
+        score = fuzz.partial_ratio(query.lower(), question.lower())
+        if score > highest_score:
+            highest_score = score
+            best_match = answer
+
+    # Set a threshold to determine if a match is good enough
+    if highest_score > 70:  # Adjust the threshold as needed
+        return best_match
     return None
 
-# Streamlit App UI
+# Function to generate response from the LLM
+def get_llm_response(query):
+    try:
+        # Create chat completion request to Groq API using llama3-70b-8192 model
+        chat_completion = client.chat.completions.create(
+            messages=[{"role": "user", "content": query}],
+            model="llama3-70b-8192",  # Ensure you are using the correct model name
+        )
+        return chat_completion.choices[0].message.content
+    except Exception as e:
+        return f"(Unable to get LLM response: {str(e)})"
+
+# Streamlit UI
 st.title("CampusGuideGPT")
-question = st.text_input("Ask your question:")
+st.write("Your guide to studying in Germany! Ask your questions below.")
 
-if question:
-    predefined_answer = get_predefined_answer(question)
+# Get user input for the query
+query = st.text_input("Ask a question about studying in Germany:")
 
+if query:
+    # First try to get an answer from predefined QA
+    predefined_answer = get_predefined_answer(query)
+
+    # Get LLM response for additional information
+    llm_response = get_llm_response(query)
+
+    # Combine answers
     if predefined_answer:
-        st.write(predefined_answer)
+        response = predefined_answer
+        if llm_response:
+            response += f"\n\nAdditional Information: {llm_response}"
     else:
-        try:
-            llm_response = client.predict(question=question)
-            st.write(llm_response)
-        except Exception as e:
-            st.write(f"Error in prediction: {e}")
+        response = llm_response or "Sorry, I couldn't find an answer to your question."
+
+    # Display the response
+    st.write(response)
