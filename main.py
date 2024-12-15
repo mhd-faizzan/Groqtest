@@ -3,13 +3,20 @@ import streamlit as st
 from groq import Groq
 
 # Initialize Groq client with the API key from Streamlit secrets
-client = Groq(api_key=st.secrets["groq"]["GROQ_API_KEY"])
+client = Groq(api_key=st.secrets["GROQ_API_KEY"])
 
 # Streamlit UI
-st.title("GenAI-based RAG Application")
+st.title("CampusGuideGPT")
+st.markdown(
+    """
+    Welcome to **CampusGuideGPT**, your AI-powered assistant for information on studying in Germany.
+    
+    Simply type your question below, and I will generate a response based on the most relevant data.
+    """
+)
 
-# Get user input for the query
-query = st.text_input("Ask a question about studying in Germany:")
+# Create a stylized input box for the prompt
+query = st.text_input("Ask a question about studying in Germany:", placeholder="Enter your question here...")
 
 # Function to generate response from the model
 def generate_response(query):
@@ -26,4 +33,5 @@ def generate_response(query):
 if query:
     # Fetch the response from the model
     response = generate_response(query)
-    st.write("Response:", response)
+    st.write("### Response:")
+    st.write(response)
