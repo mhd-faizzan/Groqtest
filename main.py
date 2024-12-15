@@ -3,16 +3,28 @@ import streamlit as st
 from groq import Groq
 
 # Initialize Groq client with the API key from Streamlit secrets
-client = Groq(api_key=st.secrets["GROQ_API_KEY"])
+client = Groq(api_key=st.secrets["groq"]["GROQ_API_KEY"])
 
 # Streamlit UI
 st.title("CampusGuideGPT")
 
-# Add a description for a user-friendly interface
+# Customize the prompt section
 st.markdown("""
-Welcome to CampusGuideGPT, your AI-powered assistant for all things related to studying abroad in Germany! 
-Ask any question and get comprehensive answers powered by the latest language models.
-""")
+    <style>
+        .prompt-text {
+            font-size: 18px;
+            font-weight: bold;
+            color: #0077cc;
+        }
+        .response-text {
+            font-size: 16px;
+            color: #333;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+    """, unsafe_allow_html=True)
 
 # Get user input for the query
 query = st.text_input("Ask a question about studying in Germany:")
@@ -29,15 +41,12 @@ def generate_response(query):
     except Exception as e:
         return f"Error in prediction: {str(e)}"
 
-# If the user enters a query, generate and display the response
 if query:
+    # Display the query in a styled way
+    st.markdown(f'<p class="prompt-text">Your Question: {query}</p>', unsafe_allow_html=True)
+    
     # Fetch the response from the model
     response = generate_response(query)
-    st.write("Response:", response)
-
-    # Optionally, add some styling to make the response more visually appealing
-    st.markdown(f"""
-    <div style="background-color: #f0f0f5; padding: 10px; border-radius: 5px;">
-        <b>Answer:</b> {response}
-    </div>
-    """, unsafe_allow_html=True)
+    
+    # Display the response in a styled way
+    st.markdown(f'<p class="response-text">Response: {response}</p>', unsafe_allow_html=True)
