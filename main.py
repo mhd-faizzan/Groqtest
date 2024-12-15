@@ -61,7 +61,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.markdown('<div class="title">CampusGuideGPT</div>', unsafe_allow_html=True)
-st.write("Your guide to studying in Germany. Ask a question below!")
+st.write("Your personal guide to studying in Germany! Ask me anything about your campus.")
 
 query = st.text_input("Ask your question:")
 
