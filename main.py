@@ -21,31 +21,7 @@ predefined_qa = [
     {"question": "What options are available for online study?", "answer": "Online study is available only for first-semester students, allowing flexibility for those unable to attend in person initially."},
     {"question": "How does the TIM program incorporate digitalization and Industry 4.0 concepts?", "answer": "The program emphasizes digital transformation strategies, integration of digital tools in business processes, and emerging trends like Mixed Reality and Smart Buildings."},
     {"question": "What is the purpose of the adjustment semester in the Regular Track?", "answer": "The adjustment semester bridges gaps in prior education for students with 180 ECTS credits. It covers foundational topics like Environment, Health, and Safety, Research Fields in Computer Science, and Engineering Projects."},
-    {"question": "Where can students find more details about admission requirements and documents?", "answer": "Detailed information about admission requirements and required documents can be found at https://www.hs-harz.de/en/study/degree-students/international-applicants/master/."},
-        {
-        "question": "What is the specialty of Hochschule Harz?",
-        "answer": "Hochschule Harz is the youngest University of Applied Sciences in Saxony-Anhalt, located in the heart of Germany. It offers a unique combination of academic excellence with access to picturesque locations, rich history, and a vibrant cultural landscape. The university’s two campuses in Wernigerode and Halberstadt offer students the perfect balance of a peaceful, familial environment and easy access to larger cities like Berlin, Leipzig, and Hanover."
-    },
-    {
-        "question": "Where are the campuses of Hochschule Harz located?",
-        "answer": "Hochschule Harz has two campuses: one in Wernigerode and another in Halberstadt. These campuses are situated at the edge of the scenic Harz Mountains in central Germany, known for their natural beauty, historical architecture, and cultural heritage."
-    },
-    {
-        "question": "What makes the Wernigerode campus special?",
-        "answer": "The Wernigerode campus is surrounded by stunning natural landscapes, featuring historical landmarks such as timber-framed houses, an old town hall, and a castle. It offers a peaceful, inspiring setting for students while being connected to larger cities within a 1-3 hour drive."
-    },
-    {
-        "question": "What are the advantages of studying at Hochschule Harz?",
-        "answer": "Hochschule Harz offers the advantages of smaller towns with a familial atmosphere, paired with proximity to major cities. Students can enjoy a comfortable and close-knit community while having easy access to bustling urban centers like Berlin and Leipzig for both personal and professional opportunities."
-    },
-    {
-        "question": "What tourist attractions are near Hochschule Harz?",
-        "answer": "The region around Hochschule Harz offers a variety of tourist attractions, including historical sites like the cathedral and its treasury in Halberstadt, as well as the Harz Mountains, which are perfect for outdoor exploration. Students can also visit the cultural sights and beautiful landscapes of the area, making it a great place to study and relax."
-    },
-    {
-        "question": "Why is Hochschule Harz a great place to study?",
-        "answer": "Hochschule Harz offers a unique combination of academic rigor, beautiful natural surroundings, and a rich cultural environment. The university's locations in Wernigerode and Halberstadt allow students to live in a peaceful, family-oriented setting while being within easy reach of larger cities. This provides a perfect balance for both academic and personal growth."
-    }
+    {"question": "Where can students find more details about admission requirements and documents?", "answer": "Detailed information about admission requirements and required documents can be found at https://www.hs-harz.de/en/study/degree-students/international-applicants/master/."}
 ]
 
 # Function to find the best match for a question
