@@ -22,8 +22,8 @@ predefined_qa = [
     {"question": "How does the TIM program incorporate digitalization and Industry 4.0 concepts?", "answer": "The program emphasizes digital transformation strategies, integration of digital tools in business processes, and emerging trends like Mixed Reality and Smart Buildings."},
     {"question": "What is the purpose of the adjustment semester in the Regular Track?", "answer": "The adjustment semester bridges gaps in prior education for students with 180 ECTS credits. It covers foundational topics like Environment, Health, and Safety, Research Fields in Computer Science, and Engineering Projects."},
     {"question": "Where can students find more details about admission requirements and documents?", "answer": "Detailed information about admission requirements and required documents can be found at https://www.hs-harz.de/en/study/degree-students/international-applicants/master/."},
-    {"question": "What is the application deadline for the iTIM program for the summer semester?", "answer": "For applicants with a foreign academic degree (via uni-assist.de): December 15th. For applicants with a German academic degree (via hs-harz.de): January 15th."},
-    {"question": "What is the application deadline for the iTIM program for the winter semester?", "answer": "For applicants with a foreign academic degree (via uni-assist.de): June 15th. For applicants with a German academic degree (via hs-harz.de): July 15th."}
+    {"question": "What is the application deadline for the iTIM (International Technology & Innovation Management) program for the summer semester?", "answer": "For applicants with a foreign academic degree (via uni-assist.de): December 15th. For applicants with a German academic degree (via hs-harz.de): January 15th."},
+    {"question": "What is the application deadline for the iTIM (International Technology & Innovation Management) program for the winter semester?", "answer": "For applicants with a foreign academic degree (via uni-assist.de): June 15th. For applicants with a German academic degree (via hs-harz.de): July 15th."}
 
 ]
 
